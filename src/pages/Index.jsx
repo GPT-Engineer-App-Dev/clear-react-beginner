@@ -1,7 +1,17 @@
 import { Box, Container, Flex, Text, VStack, HStack, Spacer, IconButton, Input, Button, FormControl, FormLabel } from "@chakra-ui/react";
 import { FaHome, FaInfoCircle, FaPhone } from "react-icons/fa";
+import { useSupabaseAuth, SupabaseAuthUI } from "../integrations/supabase/auth.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const { session, logout } = useSupabaseAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
+
   return (
     <Box>
       <Flex as="nav" bg="blue.500" color="white" padding="1.5rem" alignItems="center">
@@ -19,17 +29,16 @@ const Index = () => {
         <VStack spacing={4}>
           <Text fontSize="2xl">Welcome to MyApp</Text>
           <Text>Start building your amazing application.</Text>
-          <Box width="100%" maxW="400px" p={4} borderWidth={1} borderRadius="lg" boxShadow="lg">
-            <FormControl id="email" mb={4}>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password" mb={4}>
-              <FormLabel>Password</FormLabel>
-              <Input type="password" />
-            </FormControl>
-            <Button colorScheme="blue" width="full">Login</Button>
-          </Box>
+          {!session ? (
+            <Box width="100%" maxW="400px" p={4} borderWidth={1} borderRadius="lg" boxShadow="lg">
+              <SupabaseAuthUI />
+            </Box>
+          ) : (
+            <Box width="100%" maxW="400px" p={4} borderWidth={1} borderRadius="lg" boxShadow="lg">
+              <Button colorScheme="blue" width="full" onClick={() => navigate("/protected")}>Go to Protected Content</Button>
+              <Button colorScheme="red" width="full" mt={4} onClick={handleLogout}>Logout</Button>
+            </Box>
+          )}
         </VStack>
       </Container>
     </Box>
