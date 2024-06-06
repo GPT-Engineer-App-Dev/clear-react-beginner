@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Text, VStack, HStack, Spacer, IconButton } from "@chakra-ui/react";
+import { Box, Container, Flex, Text, VStack, HStack, Spacer, IconButton, Input, Button, FormControl, FormLabel } from "@chakra-ui/react";
 import { FaHome, FaInfoCircle, FaPhone } from "react-icons/fa";
 
 const Index = () => {
@@ -19,6 +19,17 @@ const Index = () => {
         <VStack spacing={4}>
           <Text fontSize="2xl">Welcome to MyApp</Text>
           <Text>Start building your amazing application.</Text>
+          <Box width="100%" maxW="400px" p={4} borderWidth={1} borderRadius="lg" boxShadow="lg">
+            <FormControl id="email" mb={4}>
+              <FormLabel>Email address</FormLabel>
+              <Input type="email" />
+            </FormControl>
+            <FormControl id="password" mb={4}>
+              <FormLabel>Password</FormLabel>
+              <Input type="password" />
+            </FormControl>
+            <Button colorScheme="blue" width="full">Login</Button>
+          </Box>
         </VStack>
       </Container>
     </Box>
